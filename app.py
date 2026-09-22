@@ -22,11 +22,31 @@ class Game:
     3)  {b['a3'] or ' '} | {b['b3'] or ' '} | {b['c3'] or ' '}
         """)
 
+def print_message(self):
+        if self.tie:
+            print("Tie game!")
+        elif self.winner:
+            print(f"{self.winner} wins the game!")
+        else:
+            print(f"It's player {self.turn}'s turn!")
 
-        def print_message(self):
-            if self.tie:
-                print(f"{self.winner} wins the game!")
-            else:
-                print(f"It's player {self.turn}'s turn!")
+            def render(self):
+                 self.print_board()
+                 self.print_message()
+
+
+                 def get_move(self):
+                      while True:
+                           move = input("Enter a valid move (example: A1):").lower
+
+                           if move in self.board and self.board[move]is None:
+                               self.board[move]= self.turn
+                               break 
+                           
+                           print("Invalid move. Try againn")
+
+                           
+
+
 
 
