@@ -9,7 +9,7 @@ class Game:
             "a2": None, "b2": None, "c2": None,
             "a3": None, "b3": None, "c3": None,
         }
-        
+
     def print_board(self):
         b = self.board
 
@@ -22,7 +22,7 @@ class Game:
     3)  {b['a3'] or ' '} | {b['b3'] or ' '} | {b['c3'] or ' '}
         """)
 
-def print_message(self):
+    def print_message(self):
         if self.tie:
             print("Tie game!")
         elif self.winner:
@@ -30,29 +30,68 @@ def print_message(self):
         else:
             print(f"It's player {self.turn}'s turn!")
 
-            def render(self):
-                 self.print_board()
-                 self.print_message()
+    def render(self):
+        self.print_board()
+        self.print_message()
+
+    def get_move(self):
+        while True:
+            move = input("Enter a valid move (example: A1): ").lower()
+
+            if move in self.board and self.board[move] is None:
+                self.board[move] = self.turn
+                break
+
+            print("Invalid move. Try again.")
+
+    def check_for_winner(self):
+        winning_combinations = [
+            ["a1", "b1", "c1"],
+            ["a2", "b2", "c2"],
+            ["a3", "b3", "c3"],
+            ["a1", "a2", "a3"],
+            ["b1", "b2", "b3"],
+            ["c1", "c2", "c3"],
+            ["a1", "b2", "c3"],
+            ["c1", "b2", "a3"],
+        ]
+
+        for combination in winning_combinations:
+            first = combination[0]
+            second = combination[1]
+            third = combination[2]
+
+            if (
+                self.board[first]
+                and self.board[first] == self.board[second]
+                and self.board[first] == self.board[third]
+            ):
+                self.winner = self.turn
+
+    def check_for_tie(self):
+        if None not in self.board.values() and not self.winner:
+            self.tie = True
+
+    def switch_turn(self):
+        if self.turn == "X":
+            self.turn = "O"
+        else:
+            self.turn = "X"
+
+    def play_game(self):
+        print("Welcome to Tic-Tac-Toe!")
+
+        while not self.winner and not self.tie:
+            self.render()
+            self.get_move()
+            self.check_for_winner()
+            self.check_for_tie()
+
+            if not self.winner and not self.tie:
+                self.switch_turn()
+
+        self.render()
 
 
-                 def get_move(self):
-                      while True:
-                           move = input("Enter a valid move (example: A1):").lower
-
-                           if move in self.board and self.board[move]is None:
-                               self.board[move]= self.turn
-                               break 
-                           
-                           print("Invalid move. Try againn")
-
-                           def check_for_winner(self):
-                            winning_combinations = [
-                            ["a1", "b1", "c1"],
-                            ["a2", "b2", "c2"],
-                            ["a3", "b3", "c3"],
-                            ["a1", "a2", "a3"],
-                            ["b1", "b2", "b3"],
-                            ["c1", "c2", "c3"],
-                            ["a1", "b2", "c3"],
-                            ["c1", "b2", "a3"],
-                      ]
+game_instance = Game()
+game_instance.play_game()
